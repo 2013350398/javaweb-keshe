@@ -6,6 +6,13 @@ import javax.sql.DataSource;
 import java.io.InputStream;
 import java.util.Properties;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
 public class DruidUtil {
     //声明dataSource
     private static DataSource dataSource;
@@ -26,5 +33,42 @@ public class DruidUtil {
     }
     public static DataSource getDataSource(){
         return dataSource;//返回dataSource
+    }
+
+
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void closeResultSet(ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void closePrepareStatement(PreparedStatement pst) {
+        if(pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+    public static void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
